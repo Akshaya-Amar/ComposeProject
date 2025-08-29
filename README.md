@@ -1,1 +1,1 @@
-Compose project
+Compose Project
