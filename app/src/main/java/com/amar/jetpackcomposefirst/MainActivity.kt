@@ -18,10 +18,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -185,33 +188,45 @@ fun Sample() {
                }
           }
 
-          Row(
+          Card(
                modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Color.LightGray),
-               verticalAlignment = Alignment.CenterVertically
+                    .padding(16.dp),
+               onClick = {
+                    Toast.makeText(context, "Card clicked", Toast.LENGTH_LONG).show()
+               },
+               elevation = CardDefaults.cardElevation(defaultElevation = 2.dp), // Optional shadow
+               shape = RoundedCornerShape(12.dp), // Optional rounded corners
+               colors = CardDefaults.cardColors(containerColor = Color.White) // Optional background color
           ) {
-               Image(
+               Row(
                     modifier = Modifier
-                         .size(80.dp)
-                         .padding(8.dp),
-                    painter = painterResource(R.drawable.clip_art),
-                    contentDescription = ""
-               )
-               Column(
-                    modifier = Modifier
-                         .padding(start = 8.dp, end = 16.dp)
                          .fillMaxWidth()
+                         .background(color = Color.LightGray),
+                    verticalAlignment = Alignment.CenterVertically
                ) {
-                    Text(
-                         text = "Akshaya Amar",
-                         fontWeight = FontWeight.Bold,
-                         fontSize = 20.sp
+                    Image(
+                         modifier = Modifier
+                              .size(80.dp)
+                              .padding(8.dp),
+                         painter = painterResource(R.drawable.clip_art),
+                         contentDescription = ""
                     )
-                    Text(
-                         text = "Android Developer",
-                         fontWeight = FontWeight.Normal
-                    )
+                    Column(
+                         modifier = Modifier
+                              .padding(start = 8.dp, end = 16.dp)
+                              .fillMaxWidth()
+                    ) {
+                         Text(
+                              text = "Akshaya Amar",
+                              fontWeight = FontWeight.Bold,
+                              fontSize = 20.sp
+                         )
+                         Text(
+                              text = "Android Developer",
+                              fontWeight = FontWeight.Normal
+                         )
+                    }
                }
           }
      }
