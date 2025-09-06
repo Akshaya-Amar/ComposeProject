@@ -202,7 +202,7 @@ fun Sample() {
                Row(
                     modifier = Modifier
                          .fillMaxWidth()
-                         .background(color = Color.LightGray),
+                         .background(color = Color.Green),
                     verticalAlignment = Alignment.CenterVertically
                ) {
                     Image(
