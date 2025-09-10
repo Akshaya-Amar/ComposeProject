@@ -31,7 +31,9 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -68,11 +70,41 @@ class MainActivity : ComponentActivity() {
                               CustomComposable()
                          }*/
 //                         CustomComposable("Akshaya Amar", "Android Developer")
-                         PreviewItem()
+//                         PreviewItem()
+                         RecompositionSample()
                     }
                }
           }
      }
+}
+
+@Composable
+fun RecompositionSample() {
+
+     var count by remember { mutableIntStateOf(0) }
+
+     Column(
+          modifier = Modifier.fillMaxSize(),
+          horizontalAlignment = Alignment.CenterHorizontally,
+          verticalArrangement = Arrangement.Center
+     ) {
+          Text(
+               text = "Counter -> $count",
+               fontSize = 24.sp
+          )
+
+          Spacer(modifier = Modifier.height(24.dp))
+
+          Button(onClick = { count++ }) {
+               Text(text = "Increment the counter")
+          }
+     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RecompositionPreview() {
+     RecompositionSample()
 }
 
 /*elevation = CardDefaults.cardElevation(defaultElevation = 2.dp), // Optional shadow
@@ -163,7 +195,9 @@ fun Sample() {
           Spacer(modifier = Modifier.height(16.dp))
 
           // data has to be saved in state, ui is dependent on state
+//          using 'by' allows you to treat the state as a normal variable rather than calling .value each time like text.value
           var text by remember { mutableStateOf("") }
+//          var text1 = remember { mutableStateOf("") }
 
           OutlinedTextField(
                modifier = Modifier.fillMaxWidth(),
