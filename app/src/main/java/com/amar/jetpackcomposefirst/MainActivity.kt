@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -50,7 +49,7 @@ import com.amar.jetpackcomposefirst.ui.theme.JetpackcomposeFirstTheme
 class MainActivity : ComponentActivity() {
      override fun onCreate(savedInstanceState: Bundle?) {
           super.onCreate(savedInstanceState)
-          enableEdgeToEdge()
+//          enableEdgeToEdge()
           setContent {
                /*Text(
                     text = "hello world"
@@ -61,11 +60,79 @@ class MainActivity : ComponentActivity() {
                               name = "First composable project",
                               modifier = Modifier.padding(innerPadding)
                          )*/
-                         Sample()
+//                         Sample()
+                         /*Column {
+                              CustomComposable()
+                              CustomComposable()
+                              CustomComposable()
+                              CustomComposable()
+                         }*/
+//                         CustomComposable("Akshaya Amar", "Android Developer")
+                         PreviewItem()
                     }
                }
           }
      }
+}
+
+/*elevation = CardDefaults.cardElevation(defaultElevation = 2.dp), // Optional shadow
+               shape = RoundedCornerShape(12.dp), // Optional rounded corners
+               colors = CardDefaults.cardColors(containerColor = Color.White) // Optional background color*/
+@Composable
+fun CustomComposable(name: String, occupation: String) {
+     val context = LocalContext.current
+     Card(
+          modifier = Modifier
+               .fillMaxWidth()
+               .padding(16.dp),
+          elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+          colors = CardDefaults.cardColors(containerColor = Color.White),
+          shape = RoundedCornerShape(12.dp),
+          onClick = { Toast.makeText(context, name, Toast.LENGTH_LONG).show() }
+     ) {
+          Row(
+               modifier = Modifier
+                    .fillMaxWidth()
+                    .background(color = Color(0xFFEEEEEE)),
+               verticalAlignment = Alignment.CenterVertically
+          ) {
+               Image(
+                    modifier = Modifier
+                         .size(80.dp)
+                         .padding(8.dp),
+                    painter = painterResource(R.drawable.clip_art),
+                    contentDescription = "",
+               )
+               Column(
+                    modifier = Modifier
+                         .fillMaxWidth()
+                         .padding(end = 8.dp)
+//                         .padding(start = 8.dp, end = 8.dp)
+//                         .padding(horizontal = 8.dp)
+               ) {
+                    Text(
+                         text = name,
+                         fontSize = 24.sp,
+                         fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                         text = occupation,
+                         fontSize = 18.sp
+                    )
+               }
+          }
+     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CustomComposablePreview() {
+     /*Column {
+          CustomComposable()
+          CustomComposable()
+          CustomComposable()
+     }*/
+     CustomComposable("Akshaya Amar", "Android Developer")
 }
 
 @Composable
@@ -202,7 +269,8 @@ fun Sample() {
                Row(
                     modifier = Modifier
                          .fillMaxWidth()
-                         .background(color = Color.LightGray),
+//                         .background(color = Color.LightGray),
+                         .background(color = Color(0xFFEEEEEE)),
                     verticalAlignment = Alignment.CenterVertically
                ) {
                     Image(
@@ -214,8 +282,8 @@ fun Sample() {
                     )
                     Column(
                          modifier = Modifier
-                              .padding(start = 8.dp, end = 16.dp)
                               .fillMaxWidth()
+                              .padding(start = 8.dp, end = 16.dp)
                     ) {
                          Text(
                               text = "Akshaya Amar",
@@ -240,11 +308,14 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
      )
 }
 
+/*
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-     Sample()
-     /*JetpackcomposeFirstTheme {
+//     Sample()
+     */
+/*JetpackcomposeFirstTheme {
           Greeting("Android")
-     }*/
-}
+     }*//*
+
+}*/
