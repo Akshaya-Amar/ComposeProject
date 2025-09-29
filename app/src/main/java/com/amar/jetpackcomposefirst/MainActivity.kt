@@ -1,12 +1,13 @@
 package com.amar.jetpackcomposefirst
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,7 +32,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -57,6 +57,7 @@ class MainActivity : ComponentActivity() {
                     text = "hello world"
                )*/
                JetpackcomposeFirstTheme {
+                    var name by remember { mutableStateOf("") }
                     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
 /*                         Greeting(
                               name = "First composable project",
@@ -71,7 +72,19 @@ class MainActivity : ComponentActivity() {
                          }*/
 //                         CustomComposable("Akshaya Amar", "Android Developer")
 //                         PreviewItem()
-                         RecompositionSample()
+//                         RecompositionSample()
+//                         CounterExample()
+                         Column(
+                              modifier = Modifier
+                                   .fillMaxSize()
+                                   .padding(16.dp),
+                              horizontalAlignment = Alignment.CenterHorizontally,
+                              verticalArrangement = Arrangement.Center
+                         ) {
+                              TextFieldSample(name) { name = it }
+                              Spacer(modifier = Modifier.height(16.dp))
+                              BoxSample(name)
+                         }
                     }
                }
           }
@@ -79,10 +92,47 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
+fun TextFieldSample(name: String, onNameChange: (String) -> Unit) {
+     OutlinedTextField(
+          value = name,
+          onValueChange = { onNameChange(it) },
+          modifier = Modifier.fillMaxWidth(),
+          label = {
+               Text(
+                    text = "Enter something"
+               )
+          }
+     )
+
+     Text(
+          text = "Hello $name"
+     )
+}
+
+@Composable
+fun BoxSample(name: String) {
+     val context = LocalContext.current
+     Card(
+          modifier = Modifier
+               .fillMaxWidth()
+               .clickable { Toast.makeText(context, name, Toast.LENGTH_LONG).show() },
+          elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+          colors = CardDefaults.cardColors(containerColor = Color.White),
+          shape = RoundedCornerShape(4.dp),
+     ) {
+          Text(
+               modifier = Modifier.padding(16.dp),
+               text = name,
+               fontSize = 24.sp
+          )
+     }
+}
+
+@Composable
 fun RecompositionSample() {
 
      var count by remember { mutableIntStateOf(0) }
-
+     Log.d("check...", "RecompositionSample: before column")
      Column(
           modifier = Modifier.fillMaxSize(),
           horizontalAlignment = Alignment.CenterHorizontally,
