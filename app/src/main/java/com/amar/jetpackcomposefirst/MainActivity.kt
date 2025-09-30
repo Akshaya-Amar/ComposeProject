@@ -46,6 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.amar.jetpackcomposefirst.ui.recomposeHighlighter
 import com.amar.jetpackcomposefirst.ui.theme.JetpackcomposeFirstTheme
 
 class MainActivity : ComponentActivity() {
@@ -82,7 +83,10 @@ class MainActivity : ComponentActivity() {
                               verticalArrangement = Arrangement.Center
                          ) {
                               TextFieldSample(name) { name = it }
-                              Spacer(modifier = Modifier.height(16.dp))
+                              Text(text = "Sample Text", modifier = Modifier.recomposeHighlighter())
+                              Spacer(modifier = Modifier
+                                   .height(16.dp)
+                                   .recomposeHighlighter())
                               BoxSample(name)
                          }
                     }
@@ -96,17 +100,18 @@ fun TextFieldSample(name: String, onNameChange: (String) -> Unit) {
      OutlinedTextField(
           value = name,
           onValueChange = { onNameChange(it) },
-          modifier = Modifier.fillMaxWidth(),
-          label = {
-               Text(
-                    text = "Enter something"
-               )
-          }
+          modifier = Modifier
+               .fillMaxWidth()
+               .recomposeHighlighter(),
+          label = { Text(text = "Enter something") }
      )
 
-     Text(
-          text = "Hello $name"
-     )
+     if (name.isNotEmpty()) {
+          Text(
+               text = "Hello $name",
+               modifier = Modifier.recomposeHighlighter()
+          )
+     }
 }
 
 @Composable
@@ -115,7 +120,8 @@ fun BoxSample(name: String) {
      Card(
           modifier = Modifier
                .fillMaxWidth()
-               .clickable { Toast.makeText(context, name, Toast.LENGTH_LONG).show() },
+               .clickable { Toast.makeText(context, name, Toast.LENGTH_LONG).show() }
+               .recomposeHighlighter(),
           elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
           colors = CardDefaults.cardColors(containerColor = Color.White),
           shape = RoundedCornerShape(4.dp),
@@ -130,7 +136,6 @@ fun BoxSample(name: String) {
 
 @Composable
 fun RecompositionSample() {
-
      var count by remember { mutableIntStateOf(0) }
      Log.d("check...", "RecompositionSample: before column")
      Column(
