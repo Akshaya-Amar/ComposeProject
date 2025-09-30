@@ -32,10 +32,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.amar.jetpackcomposefirst.ui.recomposeHighlighter
 import com.amar.jetpackcomposefirst.ui.theme.JetpackcomposeFirstTheme
+import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
      override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +78,8 @@ class MainActivity : ComponentActivity() {
 //                         PreviewItem()
 //                         RecompositionSample()
 //                         CounterExample()
-                         Column(
+
+                         /*Column(
                               modifier = Modifier
                                    .fillMaxSize()
                                    .padding(16.dp),
@@ -84,19 +88,56 @@ class MainActivity : ComponentActivity() {
                          ) {
                               TextFieldSample(name) { name = it }
                               Text(text = "Sample Text", modifier = Modifier.recomposeHighlighter())
-                              Spacer(modifier = Modifier
-                                   .height(16.dp)
-                                   .recomposeHighlighter())
+                              Spacer(
+                                   modifier = Modifier
+                                        .height(16.dp)
+                                        .recomposeHighlighter()
+                              )
                               BoxSample(name)
-                         }
+                         }*/
                     }
+                    LaunchEffectComposable()
                }
           }
      }
 }
 
+private fun fetchList(): List<Int> {
+//     return (1..10).toList()
+     val numbers = (10..50).random()
+     return (1..numbers).toList()
+}
+
+@Composable
+fun LaunchEffectComposable() {
+     var counter by rememberSaveable  { mutableIntStateOf(0) }
+     LaunchedEffect(Unit) {
+          try {
+               for (i in 1..10) {
+                    counter++
+                    delay(1000)
+               }
+          } catch (exception: Exception) {
+               Log.d("check...", "LaunchEffectComposable: Exception -> ${exception.message}")
+          }
+     }
+
+     val text = if (counter == 10) {
+          "Counter Stopped"
+     } else {
+          "Counter running -> $counter"
+     }
+
+     Text(text = text)
+}
+
 @Composable
 fun TextFieldSample(name: String, onNameChange: (String) -> Unit) {
+     LaunchedEffect(Unit) {
+          val list = fetchList()
+          Log.d("check...", "TextFieldSample: ${list.size}, ${Thread.currentThread().name}, $this")
+     }
+
      OutlinedTextField(
           value = name,
           onValueChange = { onNameChange(it) },
@@ -109,35 +150,42 @@ fun TextFieldSample(name: String, onNameChange: (String) -> Unit) {
      if (name.isNotEmpty()) {
           Text(
                text = "Hello $name",
-               modifier = Modifier.recomposeHighlighter()
+               modifier = Modifier
+                    .recomposeHighlighter()
+                    .padding(16.dp)
           )
      }
 }
 
 @Composable
 fun BoxSample(name: String) {
-     val context = LocalContext.current
-     Card(
-          modifier = Modifier
-               .fillMaxWidth()
-               .clickable { Toast.makeText(context, name, Toast.LENGTH_LONG).show() }
-               .recomposeHighlighter(),
-          elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-          colors = CardDefaults.cardColors(containerColor = Color.White),
-          shape = RoundedCornerShape(4.dp),
-     ) {
-          Text(
-               modifier = Modifier.padding(16.dp),
-               text = name,
-               fontSize = 24.sp
-          )
+     if (name.isNotEmpty()) {
+          val context = LocalContext.current
+          Card(
+               modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { Toast.makeText(context, name, Toast.LENGTH_LONG).show() }
+                    .recomposeHighlighter(),
+               elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+               colors = CardDefaults.cardColors(containerColor = Color.White),
+               shape = RoundedCornerShape(4.dp),
+          ) {
+               Text(
+                    modifier = Modifier.padding(16.dp),
+                    text = name,
+                    fontSize = 24.sp
+               )
+          }
      }
 }
 
 @Composable
 fun RecompositionSample() {
      var count by remember { mutableIntStateOf(0) }
-     Log.d("check...", "RecompositionSample: before column")
+     val key = count % 3 == 0
+     LaunchedEffect(key) {
+          Log.d("check...", "RecompositionSample: before column, $count")
+     }
      Column(
           modifier = Modifier.fillMaxSize(),
           horizontalAlignment = Alignment.CenterHorizontally,
