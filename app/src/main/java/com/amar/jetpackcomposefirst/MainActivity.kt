@@ -20,11 +20,11 @@ class MainActivity : ComponentActivity() {
           setContent {
                JetpackcomposeFirstTheme {
                     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                         Greeting(
+                         /*Greeting(
                               name = "First composable project",
                               modifier = Modifier.padding(innerPadding)
-                         )
-                         CustomComposable("Akshaya Amar", "Android Developer")
+                         )*/
+//                         CustomComposable("Akshaya Amar", "Android Developer")
 //                         Sample()
 //                         PreviewItem()
 //                         CounterExample()
@@ -32,6 +32,7 @@ class MainActivity : ComponentActivity() {
 //                         RecompositionSample()
 //                         LaunchEffectComposable()
 //                         RememberCoroutineScopeComposable()
+                         LaunchedEffectDemo()
                     }
                }
           }
