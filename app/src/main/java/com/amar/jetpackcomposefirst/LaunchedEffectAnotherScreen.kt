@@ -29,7 +29,7 @@ fun LaunchedEffectDemo() {
      var selectedItem by remember { mutableStateOf("Apple") }
      var description by remember { mutableStateOf<String?>(null) }
 
-     LaunchedEffect(selectedItem) { // selected item as a key for LaunchEffect i.e. when selectedItem changes, only then LaunchEffect runs
+     LaunchedEffect(selectedItem) { // selectedItem as a key for LaunchEffect i.e. when selectedItem changes, only then LaunchEffect runs
           try {
                description = null
                description = getFruitDescription(selectedItem)

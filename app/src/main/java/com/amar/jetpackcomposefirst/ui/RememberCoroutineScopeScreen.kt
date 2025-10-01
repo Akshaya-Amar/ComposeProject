@@ -28,7 +28,7 @@ import kotlin.coroutines.cancellation.CancellationException
 fun RememberCoroutineScopeComposable() {
      var counter by remember { mutableIntStateOf(0) }
      val scope = rememberCoroutineScope()
-     var job by remember { mutableStateOf<Job?>(null) }
+     var counterJob by remember { mutableStateOf<Job?>(null) }
      val text = if (counter == 10) {
           "Counter Stopped"
      } else {
@@ -45,16 +45,18 @@ fun RememberCoroutineScopeComposable() {
                fontSize = 24.sp
           )
           Button(onClick = {
-               job?.cancel()
+               counterJob?.cancel()
                counter = 0
-               job = scope.launch {
+               counterJob = scope.launch {
                     try {
+                         Log.d("check...", "Counter started")
                          while (counter < 10) {
                               counter++
                               delay(1000)
                          }
+                         Log.d("check...", "Counter finished")
                     } catch (exception: CancellationException) {
-                         Log.d("check...", "Coroutine cancelled safely")
+                         Log.d("check...", "Coroutine cancelled safely, message -> ${exception.message}")
                     } catch (exception: Exception) {
                          Log.e("check...", "Unexpected error: ${exception.message}")
                     }
