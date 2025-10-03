@@ -31,7 +31,8 @@ class MainActivity : ComponentActivity() {
 //                         LaunchEffectComposable()
 //                         LaunchedEffectDemo()
 //                         RememberCoroutineScopeComposable()
-                         RememberUpdatedStateDemo()
+//                         RememberUpdatedStateDemo()
+                         RememberUpdatedStateAnotherExample()
                     }
                }
           }

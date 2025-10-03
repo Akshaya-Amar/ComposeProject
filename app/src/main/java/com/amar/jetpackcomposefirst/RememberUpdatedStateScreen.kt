@@ -1,20 +1,45 @@
 package com.amar.jetpackcomposefirst
 
 import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
+
+fun first() {
+     Log.d("check...", "This is first function")
+}
+
+fun second() {
+     Log.d("check...", "This is second function")
+}
+
+@Composable
+fun RememberUpdatedStateAnotherExample() {
+     var state by remember { mutableStateOf(::first) }
+     Button(onClick = { state = ::second }) {
+          Text(text = "Click to change state")
+     }
+
+     LandingScreen(state)
+}
+
+@Composable
+fun LandingScreen(onTimeout: () -> Unit) {
+     val updatedOnTimeout by rememberUpdatedState((onTimeout))
+     LaunchedEffect(Unit) {
+          delay(5000)
+          updatedOnTimeout()
+     }
+}
 
 @Composable
 fun RememberUpdatedStateDemo() {
@@ -32,7 +57,6 @@ fun RememberUpdatedStateDemo() {
 fun Counter(counter: Int) {
      val updatedValue by rememberUpdatedState(counter) // latest value without recomposition
 //     var updatedValue by remember { mutableIntStateOf(0) } // latest value with recomposition
-     Log.d("check...", "updated value -> $updatedValue")
 //     updatedValue = counter
 
      LaunchedEffect(Unit) {
@@ -45,13 +69,8 @@ fun Counter(counter: Int) {
           }
      }
 
-     Column {
-
-          Text(
-               text = "Counter value is $counter",
-               fontSize = 24.sp
-          )
-
-          Text(text = "Updated value is $updatedValue")
-     }
+     Text(
+          text = "Counter value is $counter",
+          fontSize = 24.sp
+     )
 }
